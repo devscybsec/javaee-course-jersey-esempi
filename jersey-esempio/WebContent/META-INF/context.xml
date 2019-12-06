@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<Context path="/azienda">
+	<ResourceLink global="jdbc/courses" name="jdbc/courses" type="javax.sql.DataSource">
+	</ResourceLink>
+</Context>
