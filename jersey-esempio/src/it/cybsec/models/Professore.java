@@ -19,6 +19,49 @@ import it.cybsec.utils.String2DateDeserializer;
  * 
  */
 @Entity
+@NamedQueries({
+	@NamedQuery(
+			name = "ProfessoreDTOSingle",
+			query = "SELECT new it.cybsec.models.dtos.ProfessoreDTO("
+					+ " p.nome,"
+					+ " p.cognome, "
+					+ "	YEAR(CURRENT_DATE()) - YEAR(p.dataNascita) - "
+					+ "	CASE "
+					+ "		WHEN MONTH(CURRENT_DATE()) < MONTH(p.dataNascita) "
+					+ "			 OR (MONTH(CURRENT_DATE()) = MONTH(p.dataNascita) "
+					+ "				 AND DAY(CURRENT_DATE()) < DAY(p.dataNascita)) "
+					+ "		THEN 1 "
+					+ "		ELSE 0 "
+					+ " END, "
+					+ " COUNT(c), "
+					+ " COUNT(DISTINCT s))"
+					+ "FROM Professore p "
+					+ "JOIN p.corsi c "
+					+ "JOIN c.studenti s "
+					+ "WHERE p.id = :id "
+					+ "GROUP BY p.id"
+			),
+	@NamedQuery(
+			name = "ProfessoreDTO",
+			query = "SELECT new it.cybsec.models.dtos.ProfessoreDTO("
+					+ " p.nome,"
+					+ " p.cognome, "
+					+ "	YEAR(CURRENT_DATE()) - YEAR(p.dataNascita) - "
+					+ "	CASE "
+					+ "		WHEN MONTH(CURRENT_DATE()) < MONTH(p.dataNascita) "
+					+ "			 OR (MONTH(CURRENT_DATE()) = MONTH(p.dataNascita) "
+					+ "				 AND DAY(CURRENT_DATE()) < DAY(p.dataNascita)) "
+					+ "		THEN 1 "
+					+ "		ELSE 0 "
+					+ " END, "
+					+ " COUNT(c), "
+					+ " COUNT(DISTINCT s))"
+					+ "FROM Professore p "
+					+ "JOIN p.corsi c "
+					+ "JOIN c.studenti s "
+					+ "GROUP BY p.id"
+			)
+})
 @Table(name="professori")
 public class Professore implements Serializable {
 	private static final long serialVersionUID = 1L;

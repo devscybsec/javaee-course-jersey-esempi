@@ -2,9 +2,11 @@ package it.cybsec.daos;
 
 import java.util.*;
 
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 
 import it.cybsec.models.Professore;
+import it.cybsec.models.dtos.ProfessoreDTO;
 import it.cybsec.utils.AbstractDao;
 
 public class ProfessoreDao extends AbstractDao<Professore, Integer> {
@@ -36,6 +38,17 @@ public class ProfessoreDao extends AbstractDao<Professore, Integer> {
 	public void elimina(Professore professore) throws Exception {
 		super.elimina(professore);
 		professore.setCorsi(null);
+	}
+	
+	public List<ProfessoreDTO> recuperaProfessoreDTO() {
+		TypedQuery<ProfessoreDTO> professoreDTOquery = em.createNamedQuery("ProfessoreDTO", ProfessoreDTO.class);
+		return professoreDTOquery.getResultList();
+	}
+	
+	public ProfessoreDTO recuperaProfessoreDTO(Integer id) {
+		TypedQuery<ProfessoreDTO> professoreDTOquery = em.createNamedQuery("ProfessoreDTOSingle", ProfessoreDTO.class);
+		professoreDTOquery.setParameter("id", id);
+		return professoreDTOquery.getSingleResult();
 	}
 
 }

@@ -20,6 +20,7 @@ import javax.ws.rs.core.MediaType;
 import it.cybsec.daos.ProfessoreDao;
 import it.cybsec.models.Corso;
 import it.cybsec.models.Professore;
+import it.cybsec.models.dtos.ProfessoreDTO;
 
 @Path("/professori")
 public class ProfessoreJerseyController {
@@ -35,6 +36,13 @@ public class ProfessoreJerseyController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Professore findById(@PathParam("id") Integer id) {
 		return this.dao.recupera(id);
+	}
+	
+	@GET
+	@Path("/{id}/statistics")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ProfessoreDTO findByIdStatistics(@PathParam("id") Integer id) {
+		return this.dao.recuperaProfessoreDTO(id);
 	}
 	
 	@GET
@@ -64,6 +72,13 @@ public class ProfessoreJerseyController {
 		if (exp != null)
 			query.where(exp);
 		return this.dao.recupera(query);
+	}
+	
+	@GET
+	@Path("/statistics")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<ProfessoreDTO> findStatistics() {
+		return this.dao.recuperaProfessoreDTO();
 	}
 	
 	@POST

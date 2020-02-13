@@ -20,6 +20,7 @@ import javax.ws.rs.core.MediaType;
 import it.cybsec.daos.StudenteDao;
 import it.cybsec.models.Corso;
 import it.cybsec.models.Studente;
+import it.cybsec.models.dtos.StudenteDTO;
 
 @Path("/studenti")
 public class StudenteJerseyController {
@@ -31,10 +32,24 @@ public class StudenteJerseyController {
 	}
 	
 	@GET
+	@Path("/count")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Long count() {
+		return this.dao.count();
+	}
+	
+	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Studente findById(@PathParam("id") Integer id) {
 		return this.dao.recupera(id);
+	}
+	
+	@GET
+	@Path("/{id}/statistics")
+	@Produces(MediaType.APPLICATION_JSON)
+	public StudenteDTO findByIdStatistics(@PathParam("id") Integer id) {
+		return this.dao.recuperaStudenteDTO(id);
 	}
 	
 	@GET
@@ -64,6 +79,13 @@ public class StudenteJerseyController {
 		if (exp != null)
 			query.where(exp);
 		return this.dao.recupera(query);
+	}
+	
+	@GET
+	@Path("/statistics")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<StudenteDTO> findStatistics() {
+		return this.dao.recuperaStudenteDTO();
 	}
 
 	@POST

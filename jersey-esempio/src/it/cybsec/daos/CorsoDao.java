@@ -33,7 +33,7 @@ public class CorsoDao extends AbstractDao<Corso, Integer> {
 	}
 	
 	@Override
-	public void elimina(Corso corso) throws Exception {
+	public void elimina(Corso corso) throws Exception {			
 		super.elimina(corso);
 		corso.setStudenti(null);
 	}
